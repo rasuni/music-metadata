@@ -2,6 +2,8 @@ import {} from "mocha";
 import {assert} from 'chai';
 import * as mm from '../src';
 import * as path from 'path';
+import {commonTags} from "../src/common/GenericTagTypes";
+import {ICommonTagsResult} from "../src/index";
 
 const t = assert;
 
@@ -13,6 +15,21 @@ describe("Mapping of common comment tag", () => {
 
   const samples = path.join(__dirname, 'samples');
 
+  /**
+   * Check the common result for array properties which always should be returned
+   * Related: https://github.com/Borewit/music-metadata/issues/65
+   * @param {ICommonTagsResult} common Common tag result
+   */
+  function checkArrays(common: ICommonTagsResult) {
+    // for each tag type
+    for (const commonTagKey in commonTags) {
+      const commonTag = commonTags[commonTagKey];
+      if(commonTag.multiple) {
+        t.isDefined(common[commonTagKey], "Array type 'common." + commonTagKey + "' should be defined");
+      }
+    }
+  }
+
   describe("Vorbis", () => {
 
     it("FLAC/Vorbis", () => {
@@ -22,6 +39,7 @@ describe("Mapping of common comment tag", () => {
       // Parse flac/Vorbis file
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
 
@@ -32,6 +50,7 @@ describe("Mapping of common comment tag", () => {
       // Parse ogg/Vorbis file
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
   });
@@ -47,6 +66,7 @@ describe("Mapping of common comment tag", () => {
       // Run with default options
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
 
@@ -59,6 +79,7 @@ describe("Mapping of common comment tag", () => {
       // Run with default options
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
   });
@@ -72,6 +93,7 @@ describe("Mapping of common comment tag", () => {
       // Run with default options
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
 
@@ -83,6 +105,7 @@ describe("Mapping of common comment tag", () => {
 
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
   });
@@ -94,20 +117,10 @@ describe("Mapping of common comment tag", () => {
       const filename = "MusicBrainz - Beth Hart - Sinner's Prayer [id3v2.4].V2.mp3";
       const filePath = path.join(__dirname, 'samples', filename);
 
-      function checkFormat(format: mm.IFormat) {
-        t.deepEqual(format.tagTypes, ['ID3v2.4'], 'format.tagTypes');
-        t.strictEqual(format.dataformat, 'mp3', 'format.dataformat = mp3');
-        t.strictEqual(format.duration, 2.1681632653061222, 'format.duration');
-        t.strictEqual(format.sampleRate, 44100, 'format.sampleRate = 44.1 kHz');
-        // t.strictEqual(format.bitsPerSample, 16, 'format.bitsPerSample');
-        t.strictEqual(format.numberOfChannels, 2, 'format.numberOfChannels');
-        t.strictEqual(format.codecProfile, 'V2', 'format.codecProfile = V2');
-        t.strictEqual(format.encoder, 'LAME3.99r', 'format.encoder = LAME3.99r');
-      }
-
       // Run with default options
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
 
@@ -120,6 +133,7 @@ describe("Mapping of common comment tag", () => {
       // Run with default options
       return mm.parseFile(filePath, {native: true}).then(metadata => {
         t.deepEqual(metadata.common.comment, ["Test 123"]);
+        checkArrays(metadata.common);
       });
     });
 
@@ -133,6 +147,7 @@ describe("Mapping of common comment tag", () => {
     return mm.parseFile(filePath, {native: true}).then(metadata => {
       // Aggregation of '----:com.apple.iTunes:NOTES' & '©cmt'
       t.deepEqual(metadata.common.comment, ["Medieval CUE Splitter (www.medieval.it)", "Test 123"]);
+      checkArrays(metadata.common);
     });
   });
 
@@ -145,6 +160,7 @@ describe("Mapping of common comment tag", () => {
     // Parse wma/asf file
     return mm.parseFile(filePath, {native: true}).then(metadata => {
       t.deepEqual(metadata.common.comment, ["Medieval CUE Splitter (www.medieval.it)", "Test 123"]);
+      checkArrays(metadata.common);
     });
   });
 

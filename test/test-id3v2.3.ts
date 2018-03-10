@@ -126,7 +126,7 @@ describe("Extract metadata from ID3v2.3 header", () => {
         t.deepEqual(common.track, {no: 4, of: null}, 'common.track = 4/?');
         t.strictEqual(common.track.of, null, 'common.track.of = null');
         t.deepEqual(common.genre, ["Alternative"], "common.genre");
-        t.isUndefined(common.comment, "common.comment");
+        t.deepEqual(common.comment, [], "common.comment");
       }
 
       return mm.parseFile(filePath).then(result => {

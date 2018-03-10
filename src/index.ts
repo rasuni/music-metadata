@@ -109,18 +109,18 @@ export interface ICommonTagsResult {
   averageLevel?: number,
   peakLevel?: number,
   notes: string[],
-  originalalbum: string,
-  originalartist: string,
+  originalalbum?: string,
+  originalartist?: string,
   // Discogs:
   discogs_release_id?: number,
   /**
    * Track gain in dB; eg: "-7.03 dB"
    */
-  replaygain_track_gain: string,
+  replaygain_track_gain?: string,
   /**
    * Track peak [0..1]
    */
-  replaygain_track_peak: number
+  replaygain_track_peak?: number
 
 }
 
@@ -373,8 +373,32 @@ export class MusicMetadataParser {
       native: includeNative ? nativeData.native : undefined,
       common: {
         track: {no: null, of: null},
-        disk: {no: null, of: null}
-      } as any
+        disk: {no: null, of: null},
+        // Initialize array types with empty array
+        'performer:instrument': [],
+        arranger: [],
+        artists: [],
+        comment: [],
+        composer: [],
+        composersort: [],
+        conductor: [],
+        discsubtitle: [],
+        djmixer: [],
+        engineer: [],
+        genre: [],
+        grouping: [],
+        lyricist: [],
+        lyrics: [],
+        mixer: [],
+        musicbrainz_albumartistid: [],
+        musicbrainz_artistid: [],
+        notes: [],
+        producer: [],
+        releasetype: [],
+        remixer: [],
+        subtitle: [],
+        writer: [],
+        }
     };
 
     metadata.format.tagTypes = [];

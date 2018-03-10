@@ -121,8 +121,8 @@ describe("Parsing MPEG / ID3v1", () => {
       t.isUndefined(common.year, 'common.year');
       t.strictEqual(common.track.no, null, 'common.track.no = null');
       t.strictEqual(common.track.of, null, 'common.track.of = null');
-      t.isUndefined(common.genre, 'common.genre');
-      t.isUndefined(common.comment, 'common.comment');
+      t.deepEqual(common.genre, [], 'common.genre');
+      t.deepEqual(common.comment, [], 'common.comment');
     }
 
     return mm.parseFile(filePath).then(metadata => {
