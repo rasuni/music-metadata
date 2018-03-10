@@ -397,7 +397,7 @@ export class MusicMetadataParser {
         releasetype: [],
         remixer: [],
         subtitle: [],
-        writer: [],
+        writer: []
         }
     };
 

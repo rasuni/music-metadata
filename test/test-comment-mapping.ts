@@ -24,7 +24,7 @@ describe("Mapping of common comment tag", () => {
     // for each tag type
     for (const commonTagKey in commonTags) {
       const commonTag = commonTags[commonTagKey];
-      if(commonTag.multiple) {
+      if (commonTag.multiple) {
         t.isDefined(common[commonTagKey], "Array type 'common." + commonTagKey + "' should be defined");
       }
     }
